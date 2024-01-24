@@ -1,19 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Pontua Hero",
+  "name": "Pontua Select Hero Profile",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon_pontua.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "logo_pontua192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "logo_pontua512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
