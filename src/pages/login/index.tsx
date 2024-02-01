@@ -1,9 +1,360 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import {
+  iconArrowEnter,
+  iconAt,
+  iconCheck,
+  iconChevronDown,
+  iconChevronUp,
+  iconEyeActive,
+  iconEyeInactive,
+  iconShield,
+  iconUser,
+  logo,
+} from "../../assets/icons";
+import building from "../../assets/building.webp";
+import { showToast, validate } from "../../utils";
+import mockLogin from "../../services/api/mock";
+import { IMockLogin } from "../../types/interfaces";
+import useLoginContext from "../../hook/useLoginContext";
+import useChosenProfileContext from "../../hook/useChosenProfileContext";
 import "./login.scss";
 
+interface LoginScreenData {
+  title?: string;
+  signTitle?: string;
+  description?: string;
+  email?: string;
+  textButtonOne?: string;
+  link?: string;
+  inputTwo?: string;
+}
+
 const Login = () => {
+  const navigate = useNavigate();
+  const { toggleAuthentication } = useLoginContext();
+  const { changeChosenProfile } = useChosenProfileContext();
+
+  const [loginStep, setLoginStep] = useState("logInto");
+  const [dataLoginScreen, setDataLoginScreen] = useState({
+    title: "Bem-vindo",
+    signTitle: ".",
+    description: "informe as suas credenciais de acesso ao portal",
+    email: "",
+    textButtonOne: "entrar",
+    link: "Esqueceu a senha?",
+    inputTwo: "",
+  } as LoginScreenData);
+
+  const [textEmail, setTextEmail] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(true);
+  const [textPassword, setTextPassword] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
+  const [ctaDisabled, setCtaDisabled] = useState(true);
+  const [selectedAgent, setSelectedAgent] = useState("");
+  const [selectedAgentStorage, setSelectedAgentStorage] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const isLoggedInStorage = localStorage.getItem("loggedInHero");
+    const profileHeroInStorage = localStorage.getItem("profileHero");
+
+    profileHeroInStorage && setSelectedAgentStorage(profileHeroInStorage);
+    profileHeroInStorage && setSelectedAgent(profileHeroInStorage);
+
+    isLoggedInStorage && setLoginStep("selectProfile");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    toogleEnableCta();
+  }, [loginStep]);
+
+  useEffect(() => {
+    let isDisabled = true;
+
+    if (loginStep === "emailSent") {
+      isDisabled = false;
+    } else if (loginStep === "logInto") {
+      isDisabled = !(textPassword.length && validate.validateEmail(textEmail));
+    } else if (loginStep === "recoverPassword") {
+      isDisabled = !validate.validateEmail(textEmail);
+    } else if (loginStep === "selectProfile") {
+      isDisabled = !selectedAgent;
+    }
+
+    setCtaDisabled(isDisabled);
+  }, [
+    textEmail,
+    emailIsValid,
+    textPassword,
+    passwordIsValid,
+    loginStep,
+    selectedAgent,
+  ]);
+
+  useEffect(() => {
+    const loginScreenData: Record<string, LoginScreenData> = {
+      selectProfile: {
+        title: "Selecione o seu agente mais legal",
+        signTitle: ".",
+        description: "Tenha a visão completa do seu agente.",
+        textButtonOne: "Entrar",
+      },
+      recoverPassword: {
+        title: "Recuperar senha",
+        signTitle: ".",
+        description:
+          "Informe o e-mail do seu cadastro. Nós estaremos realizando o envio de um link com as instruções para você redefinir a sua senha.",
+        textButtonOne: "enviar link",
+      },
+      emailSent: {
+        title: "Tudo certo",
+        signTitle: " ;)",
+        description:
+          "Foi enviado um e-mail para você com instruções de como redefinir a sua senha.",
+        textButtonOne: "voltar para login",
+      },
+      logInto: {
+        title: "Bem-vindo",
+        signTitle: ".",
+        description: "informe as suas credenciais de acesso ao portal",
+        textButtonOne: "entrar",
+      },
+    };
+
+    setDataLoginScreen((currentState) => ({
+      ...currentState,
+      ...(loginScreenData[loginStep] || {}),
+    }));
+  }, [loginStep]);
+
+  const toogleEnableCta = () => {
+    setCtaDisabled(true);
+    setTextEmail("");
+    setTextPassword("");
+  };
+
+  const validateEmail = (event: React.FocusEvent<HTMLInputElement>) => {
+    setEmailIsValid(validate.validateEmail(event.target.value));
+  };
+
+  const validatePassword = () => {
+    setPasswordIsValid(!!textPassword.length);
+  };
+
+  const handleLogin = (): IMockLogin | Error => {
+    try {
+      const response: IMockLogin = mockLogin(textEmail, textPassword);
+      return response;
+    } catch (error) {
+      return error as Error;
+    }
+  };
+
+  const logIn = async () => {
+    const resultLogin = handleLogin();
+    if (resultLogin instanceof Error || !resultLogin?.isAuthenticated)
+      return showToast("error", "E-mail e/ou senha inválida!");
+
+    localStorage.setItem("loggedInHero", "true");
+    toggleAuthentication(resultLogin.isAuthenticated);
+
+    setLoginStep("selectProfile");
+  };
+
+  const saveProfile = () => {
+    navigate("/perfil");
+  };
+
+  const changeLoginScreen = (step?: string) => {
+    switch (loginStep) {
+      case "logInto":
+        if (step === "forgotPassword") {
+          setLoginStep("recoverPassword");
+        } else {
+          logIn();
+        }
+        break;
+      case "recoverPassword":
+        setLoginStep("emailSent");
+        break;
+      case "selectProfile":
+        saveProfile();
+        break;
+      default:
+        setLoginStep("logInto");
+    }
+  };
+
+  const chooseProfile = (option: string) => {
+    setIsOpen(false);
+    localStorage.setItem("profileHero", option);
+    changeChosenProfile(option);
+    setSelectedAgent(option);
+  };
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const profiles = [
+    { name: "Perfil 1", id: "1" },
+    { name: "Perfil 2", id: "2" },
+    { name: "Perfil 3", id: "3" },
+    { name: "Perfil X", id: "X" },
+    { name: "Perfil 1", id: "1" },
+    { name: "Perfil 2", id: "2" },
+    { name: "Perfil 3", id: "3" },
+    { name: "Perfil X", id: "X" },
+    { name: "Perfil 1", id: "1" },
+    { name: "Perfil 2", id: "2" },
+    { name: "Perfil 3", id: "3" },
+    { name: "Perfil X", id: "X" },
+    { name: "Perfil 1", id: "1" },
+    { name: "Perfil 2", id: "2" },
+    { name: "Perfil 3", id: "3" },
+    { name: "Perfil X", id: "X" },
+  ];
+
+  const loginScreen = () => {
+    return (
+      <div className="login-screen">
+        <h1 className="title-login">
+          {dataLoginScreen.title}
+          <span className="sign-title">{dataLoginScreen.signTitle}</span>
+        </h1>
+        <p className="description-login">{dataLoginScreen.description}</p>
+        {(loginStep === "logInto" || loginStep === "recoverPassword") && (
+          <div className="wrapper-input-icon">
+            <input
+              type="email"
+              placeholder="Informe seu e-mail"
+              className="input-login"
+              value={textEmail}
+              onChange={(e) => setTextEmail(e.target.value)}
+              onBlur={validateEmail}
+            />
+            <img className="icons icons-input" src={iconAt} alt="" />
+            {!emailIsValid && (
+              <p className="msg-error">Formato de e-mail inválido</p>
+            )}
+          </div>
+        )}
+        {loginStep === "logInto" && (
+          <div className="wrapper-input-icon">
+            <input
+              type={showPassword ? "password" : "text"}
+              placeholder="Informe sua senha"
+              className="input-login"
+              value={textPassword}
+              onChange={(e) => setTextPassword(e.target.value)}
+              onBlur={validatePassword}
+            />
+            <img
+              className="icons icons-input icon-link"
+              src={showPassword ? iconEyeActive : iconEyeInactive}
+              onClick={() => setShowPassword((currentState) => !currentState)}
+              alt=""
+            />
+            {!passwordIsValid && (
+              <p className="msg-error">Campo de senha é obrigatório</p>
+            )}
+          </div>
+        )}
+        {loginStep === "selectProfile" && (
+          <div className="simple-dropdown">
+            <div
+              className={`dropdown-header ${isOpen ? "highlight-input" : ""}`}
+              onClick={toggleDropdown}
+            >
+              <div
+                className={`image-name-profile ${
+                  selectedAgent ? "" : "gray-500"
+                }`}
+              >
+                {selectedAgent ? (
+                  <img src={iconCheck} alt="" />
+                ) : (
+                  <img src={iconUser} alt="" />
+                )}
+                {selectedAgent ? selectedAgent : "Selecione um agente"}
+              </div>
+              {isOpen ? (
+                <img src={iconChevronUp} alt="" />
+              ) : (
+                <img src={iconChevronDown} alt="" />
+              )}
+            </div>
+            {isOpen && (
+              <div className="dropdown-options">
+                {profiles.map((option) => {
+                  return (
+                    <div
+                      onClick={() => chooseProfile(option.name)}
+                      className={`line-option-profile ${
+                        option.name === selectedAgentStorage
+                          ? "background-light"
+                          : ""
+                      }`}
+                      key={option.id}
+                    >
+                      <div className="image-name-profile">
+                        <img src={iconCheck} alt="" />
+                        {option.name}
+                      </div>
+                      {option.name === selectedAgentStorage && (
+                        <img src={iconCheck} alt="" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+        {!isOpen && (
+          <div className="wrapper-input-icon">
+            <button
+              className={`button-cta ${ctaDisabled ? "disabled" : ""} ${
+                loginStep === "selectProfile" ? "cta-profile" : ""
+              }`}
+              disabled={ctaDisabled}
+              onClick={() => changeLoginScreen()}
+            >
+              {dataLoginScreen.textButtonOne}
+            </button>
+            {loginStep === "logInto" && (
+              <img className="icons icon-button" src={iconArrowEnter} alt="" />
+            )}
+          </div>
+        )}
+        {loginStep === "logInto" && (
+          <div className="wrapper-icon-button">
+            <img className="icons" src={iconShield} alt="" />
+            <button
+              className="button-link"
+              onClick={() => changeLoginScreen("forgotPassword")}
+            >
+              Esqueceu a senha?
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="page-login">
+      <div className="wrapper-page-login">
+        <img className="logo" src={logo} alt="P" />
+        <div className="body-login">
+          <img className="img" src={building} alt="P" />
+          {loginScreen()}
+        </div>
+      </div>
     </div>
   );
 };

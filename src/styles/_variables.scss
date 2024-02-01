@@ -12,8 +12,17 @@
   --gray-background: #F5F6F8; // R245 G246 B248
   --gray-100: #EAECF0; // R234 G236 B240
   --gray-500: #777777; // R119 G119 B119
+  --gray-c3: #C3C3C3; // R195 G195 B195
 
   // Fonts
   --font-primary: 'Epilogue', sans-serif;
   --font-secondary: 'Inter', sans-serif;
 }
+
+// Breakpoints
+$breakpoint-xxlarge: "only screen and (min-width: 1358px)";
+$breakpoint-xlarge: "only screen and (min-width: 1200px)";
+$breakpoint-large: "only screen and (min-width: 1025px)";
+$breakpoint-medium: "only screen and (min-width: 769px)";
+$breakpoint-small: "only screen and (min-width: 481px)";
+$breakpoint-xsmall: "only screen and (min-width: 360px)";
