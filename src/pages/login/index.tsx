@@ -14,11 +14,11 @@ import {
   logo,
 } from "../../assets/icons";
 import building from "../../assets/building.webp";
-import { showToast, validate } from "../../utils";
+import { Loading, showToast, validate } from "../../utils";
 import mockLogin from "../../services/api/mock";
-import { IMockLogin } from "../../types/interfaces";
-import useLoginContext from "../../hook/useLoginContext";
-import useChosenProfileContext from "../../hook/useChosenProfileContext";
+import { IMockLogin, Person } from "../../types/interfaces";
+import useCharactersContext from "../../services/hook/useCharactersContext";
+import api from "../../services/api";
 import "./login.scss";
 
 interface LoginScreenData {
@@ -33,8 +33,7 @@ interface LoginScreenData {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { toggleAuthentication } = useLoginContext();
-  const { changeChosenProfile } = useChosenProfileContext();
+  const { saveCharacters } = useCharactersContext();
 
   const [loginStep, setLoginStep] = useState("logInto");
   const [dataLoginScreen, setDataLoginScreen] = useState({
@@ -53,17 +52,17 @@ const Login = () => {
   const [passwordIsValid, setPasswordIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(true);
   const [ctaDisabled, setCtaDisabled] = useState(true);
-  const [selectedAgent, setSelectedAgent] = useState("");
-  const [selectedAgentStorage, setSelectedAgentStorage] = useState("");
+  const [selectedAgent, setSelectedAgent] = useState({} as Person);
+  const [selectedAgentStorage, setSelectedAgentStorage] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [characters, setCharacters] = useState([] as Person[]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const isLoggedInStorage = localStorage.getItem("loggedInHero");
-    const profileHeroInStorage = localStorage.getItem("profileHero");
-
-    profileHeroInStorage && setSelectedAgentStorage(profileHeroInStorage);
-    profileHeroInStorage && setSelectedAgent(profileHeroInStorage);
-
+    isLoggedInStorage && setLoggedIn(true);
     isLoggedInStorage && setLoginStep("selectProfile");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -82,7 +81,7 @@ const Login = () => {
     } else if (loginStep === "recoverPassword") {
       isDisabled = !validate.validateEmail(textEmail);
     } else if (loginStep === "selectProfile") {
-      isDisabled = !selectedAgent;
+      isDisabled = !selectedAgent.name;
     }
 
     setCtaDisabled(isDisabled);
@@ -131,6 +130,48 @@ const Login = () => {
     }));
   }, [loginStep]);
 
+  useEffect(() => {
+    loggedIn && getCharacters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn]);
+
+  const getCharacters = async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await api.getCharacters();
+      if ("results" in response) {
+        saveCharacters(response.results);
+        setCharacters(response.results);
+        savePersonOfStorage(response.results);
+      } else {
+        return showToast(
+          "error",
+          "Ocorreu um erro na busca de agentes. Tente novamente mais tarde"
+        );
+      }
+    } catch (error) {
+      return showToast(
+        "error",
+        "Ocorreu um erro na busca de agentes. Tente novamente mais tarde"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const savePersonOfStorage = (persons: Person[]) => {
+    const idProfileHeroInStorage = localStorage.getItem("profileHero");
+
+    idProfileHeroInStorage &&
+      setSelectedAgentStorage(Number(idProfileHeroInStorage));
+
+    persons.map((person) => {
+      return (
+        person.id === Number(idProfileHeroInStorage) && setSelectedAgent(person)
+      );
+    });
+  };
+
   const toogleEnableCta = () => {
     setCtaDisabled(true);
     setTextEmail("");
@@ -159,8 +200,8 @@ const Login = () => {
     if (resultLogin instanceof Error || !resultLogin?.isAuthenticated)
       return showToast("error", "E-mail e/ou senha inválida!");
 
+    setLoggedIn(true);
     localStorage.setItem("loggedInHero", "true");
-    toggleAuthentication(resultLogin.isAuthenticated);
 
     setLoginStep("selectProfile");
   };
@@ -189,35 +230,15 @@ const Login = () => {
     }
   };
 
-  const chooseProfile = (option: string) => {
+  const chooseProfile = (option: Person) => {
     setIsOpen(false);
-    localStorage.setItem("profileHero", option);
-    changeChosenProfile(option);
+    localStorage.setItem("profileHero", option.id.toString());
     setSelectedAgent(option);
   };
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
-  const profiles = [
-    { name: "Perfil 1", id: "1" },
-    { name: "Perfil 2", id: "2" },
-    { name: "Perfil 3", id: "3" },
-    { name: "Perfil X", id: "X" },
-    { name: "Perfil 1", id: "1" },
-    { name: "Perfil 2", id: "2" },
-    { name: "Perfil 3", id: "3" },
-    { name: "Perfil X", id: "X" },
-    { name: "Perfil 1", id: "1" },
-    { name: "Perfil 2", id: "2" },
-    { name: "Perfil 3", id: "3" },
-    { name: "Perfil X", id: "X" },
-    { name: "Perfil 1", id: "1" },
-    { name: "Perfil 2", id: "2" },
-    { name: "Perfil 3", id: "3" },
-    { name: "Perfil X", id: "X" },
-  ];
 
   const loginScreen = () => {
     return (
@@ -270,18 +291,31 @@ const Login = () => {
               className={`dropdown-header ${isOpen ? "highlight-input" : ""}`}
               onClick={toggleDropdown}
             >
-              <div
-                className={`image-name-profile ${
-                  selectedAgent ? "" : "gray-500"
-                }`}
-              >
-                {selectedAgent ? (
-                  <img src={iconCheck} alt="" />
-                ) : (
-                  <img src={iconUser} alt="" />
-                )}
-                {selectedAgent ? selectedAgent : "Selecione um agente"}
-              </div>
+              {loading ? (
+                <Loading />
+              ) : (
+                <div
+                  className={`image-name-profile ${
+                    selectedAgent.name ? "" : "gray-500"
+                  }`}
+                >
+                  {selectedAgent?.thumbnail ? (
+                    <img
+                      src={
+                        selectedAgent?.thumbnail?.path +
+                        "." +
+                        selectedAgent?.thumbnail?.extension
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    <img src={iconUser} alt="" />
+                  )}
+                  {selectedAgent.name
+                    ? selectedAgent.name
+                    : "Selecione um agente"}
+                </div>
+              )}
               {isOpen ? (
                 <img src={iconChevronUp} alt="" />
               ) : (
@@ -290,22 +324,29 @@ const Login = () => {
             </div>
             {isOpen && (
               <div className="dropdown-options">
-                {profiles.map((option) => {
+                {characters?.map((option) => {
                   return (
                     <div
-                      onClick={() => chooseProfile(option.name)}
+                      onClick={() => chooseProfile(option)}
                       className={`line-option-profile ${
-                        option.name === selectedAgentStorage
+                        option.id === selectedAgentStorage
                           ? "background-light"
                           : ""
                       }`}
                       key={option.id}
                     >
                       <div className="image-name-profile">
-                        <img src={iconCheck} alt="" />
+                        <img
+                          src={
+                            option.thumbnail.path +
+                            "." +
+                            option.thumbnail.extension
+                          }
+                          alt=""
+                        />
                         {option.name}
                       </div>
-                      {option.name === selectedAgentStorage && (
+                      {option.id === selectedAgentStorage && (
                         <img src={iconCheck} alt="" />
                       )}
                     </div>
@@ -352,7 +393,7 @@ const Login = () => {
         <img className="logo" src={logo} alt="P" />
         <div className="body-login">
           <img className="img" src={building} alt="P" />
-          {loginScreen()}
+          <div className="wrapper-login-screen">{loginScreen()}</div>
         </div>
       </div>
     </div>

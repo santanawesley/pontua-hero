@@ -2,14 +2,14 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 
 import Login from "./index";
-import LoginProvider from "../../contexts/LoginContext";
+import CharactersProvider from "../../contexts/CharactersContext";
 
-test("Renders the Login component correctly", () => {
+it("Renders the Login component correctly", () => {
   render(
     <BrowserRouter>
-      <LoginProvider>
+      <CharactersProvider>
         <Login />
-      </LoginProvider>
+      </CharactersProvider>
     </BrowserRouter>
   );
 
@@ -19,12 +19,12 @@ test("Renders the Login component correctly", () => {
   expect(screen.getByText(/entrar/)).toBeInTheDocument();
 });
 
-test('Changes the screen to "Recover password" when clicking on "Esqueceu a senha?"', () => {
+it('Changes the screen to "Recover password" when clicking on "Esqueceu a senha?"', () => {
   render(
     <BrowserRouter>
-      <LoginProvider>
+      <CharactersProvider>
         <Login />
-      </LoginProvider>
+      </CharactersProvider>
     </BrowserRouter>
   );
 

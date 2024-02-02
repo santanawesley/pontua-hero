@@ -4,8 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import ChosenProfileProvider from "./contexts/ChosenProfileContext";
-import LoginProvider from "./contexts/LoginContext";
+import CharactersProvider from "./contexts/CharactersContext";
 import RoutesApp from "./routes";
 import "./styles/main.scss";
 
@@ -15,11 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <LoginProvider>
-        <ChosenProfileProvider>
-          <RoutesApp />
-        </ChosenProfileProvider>
-      </LoginProvider>
+      <CharactersProvider>
+        <RoutesApp />
+      </CharactersProvider>
       <ToastContainer />
     </React.StrictMode>
   </BrowserRouter>
