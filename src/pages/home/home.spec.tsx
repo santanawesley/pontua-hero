@@ -1,9 +1,14 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
 import Home from "./index";
+import { BrowserRouter } from "react-router-dom";
 
-test("renders word Home", () => {
-  // descrição incorreta - alterar
-  render(<Home />);
-  const titleHome = screen.getByText(/Home/i);
-  expect(titleHome).toBeInTheDocument();
+it("renders word Home", () => {
+  render(
+    <BrowserRouter>
+      <Home />
+    </BrowserRouter>
+  );
+  const titleHome = screen.queryAllByText(/Home/i);
+  expect(titleHome.length).toBeGreaterThan(0);
 });

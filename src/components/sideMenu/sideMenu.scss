@@ -1,0 +1,32 @@
+.side-menu {
+  max-width: 256px;
+  background: #FFFFFF;
+  box-shadow: 6px 0px 18px 0px #0000000F;
+  min-height: 100vh;
+  .logo-menu {
+    padding: 20px 26px;
+    height: 60px;
+    border-bottom: 1px solid #EBEFF2;
+    box-sizing: border-box;
+  }
+  .options-menu {
+    padding: 20px 26px;
+    border-bottom: 1px solid #EBEFF2;
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    .option-highlight {
+      color: #F21A05;
+      ;
+    }
+  }
+  .item-menu, .footer-menu {
+    padding: 12px 0;
+    display: flex;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .footer-menu {
+    margin: 8px 26px;
+  }
+}
