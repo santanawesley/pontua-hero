@@ -10,12 +10,17 @@ import {
   logoBlue,
 } from "../../assets/icons";
 import "./sideMenu.scss";
-import useCharactersContext from "../../services/hook/useCharactersContext";
+import {
+  useCharactersContext,
+  useSelectedCharacterContext,
+} from "../../services/hook";
+import { Person } from "../../types/interfaces";
 
 const SideMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { saveCharacters } = useCharactersContext();
+  const { saveSelectedCharacter } = useSelectedCharacterContext();
   const [pageActive, setPageActive] = useState("");
 
   useEffect(() => {
@@ -42,6 +47,8 @@ const SideMenu = () => {
     localStorage.removeItem("loggedInHero");
     localStorage.removeItem("profileHero");
     saveCharacters([]);
+    saveSelectedCharacter({} as Person);
+    navigate("/login");
   };
 
   return (

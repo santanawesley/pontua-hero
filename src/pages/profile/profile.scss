@@ -3,7 +3,69 @@
   .main {
     width: 100%;
     .profile {
-    padding: 20px 26px;
+      padding: 40px 10px 20px 30px;
+      .title-profile {
+        font-family: Epilogue;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 25px;
+        letter-spacing: -0.03em;
+        text-align: left;
+        color: var(--blue-600, #081B4E);
+        .divisor-title {
+          color: var(--orange-500, #F43724);
+        }
+        .name-title {
+          font-weight: 300;
+          color: var(--gray-500, #777777);
+        }
+      }
+      .content-tab {
+        margin-top: 25px;
+        .tab-geral {
+          box-shadow: 6px 0px 18px 0px #0000000F;
+          padding: 30px;
+          border-radius: 15px;
+          display: flex;
+          gap: 30px;  
+          img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+          }
+          .text-tab-geral {
+            font-family: Epilogue;
+            line-height: 25px;
+            letter-spacing: -0.03em;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            .text-name {
+              font-size: 24px;
+              font-weight: 700;
+              color: var(--blue-600, #081B4E);
+            }
+            .text-description {
+              font-size: 16px;
+              font-weight: 600;
+              letter-spacing: -0.03em;
+              color: #717171;
+            }
+          }
+        }
+        ul {
+          padding: 0 20px;
+          li {
+            color: #667085;
+            list-style: initial;
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: 0em;
+          }
+        }
+      }
     }
   }
 }

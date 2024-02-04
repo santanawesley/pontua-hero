@@ -1,0 +1,30 @@
+.menu-profile {
+  border-bottom: 1px solid #EAECF0;
+  ul {
+    display: flex;
+    padding: 45px 0 0;
+    gap: 12px;
+    .item-menu {
+      text-transform: capitalize;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      padding-bottom: 15px;
+      color: var(gray-500, #777777);
+      position: relative;
+    }
+    .active-tab {
+      color: var(--blue-600, #081B4E);
+    }
+    
+    .active-tab::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      border-bottom: 2px solid var(--blue-600, #081B4E);
+    }
+  }
+}

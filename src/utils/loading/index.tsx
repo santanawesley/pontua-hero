@@ -1,7 +1,16 @@
 import "./styles.scss";
 
-const Loading = () => {
-  return <div className="c-loader" data-testid="loading"></div>;
+interface LoadingProps {
+  size?: string;
+}
+
+const Loading: React.FC<LoadingProps> = ({ size = "small" }) => {
+  return (
+    <div
+      className={`c-loader ${size === "large" ? "loader-large" : ""}`}
+      data-testid="loading"
+    ></div>
+  );
 };
 
 export default Loading;

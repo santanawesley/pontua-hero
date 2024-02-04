@@ -8,6 +8,12 @@
 	margin: auto;
 }
 
+.loader-large {
+	height: 100px;
+	width: 100px;
+	margin-top: 150px;
+}
+
 @keyframes is-rotating {
 	to {
 		transform: rotate(1turn);

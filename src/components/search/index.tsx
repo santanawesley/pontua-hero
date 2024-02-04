@@ -1,12 +1,13 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+
 import "./search.scss";
 
 const Search = () => {
-  return (
-    <div className="wrapper-search">
-      <p>Search</p>
-    </div>
-  );
+  const location = useLocation();
+  const path = location.pathname;
+
+  return <div className="wrapper-search">{path === "/" && <p>Search</p>}</div>;
 };
 
 export default Search;
