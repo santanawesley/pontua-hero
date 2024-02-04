@@ -5,6 +5,7 @@ import {
   iconArrowReturn,
   iconDashboard,
   iconDashboardRed,
+  iconClose,
   iconUserBlack,
   iconUserRed,
   logoBlue,
@@ -16,7 +17,11 @@ import {
 } from "../../services/hook";
 import { Person } from "../../types/interfaces";
 
-const SideMenu = () => {
+interface SideMenuProps {
+  closeMenu: (showMenu: boolean) => void;
+}
+
+const SideMenu: React.FC<SideMenuProps> = ({ closeMenu }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { saveCharacters } = useCharactersContext();
@@ -55,6 +60,12 @@ const SideMenu = () => {
     <div className="side-menu">
       <div className="logo-menu">
         <img src={logoBlue} alt="" />
+        <img
+          src={iconClose}
+          alt="Fechar Menu"
+          className="icon-close"
+          onClick={() => closeMenu(false)}
+        />
       </div>
       <div className="options-menu">
         <div

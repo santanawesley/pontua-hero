@@ -5,10 +5,11 @@ import {
   useCharactersContext,
   useSelectedCharacterContext,
 } from "../../services/hook";
-import { Search, SideMenu } from "../../components";
+import { SideMenu } from "../../components";
 import MenuProfile from "./components/menuProfile";
 import api from "../../services/api";
 import { Loading, showToast } from "../../utils";
+import { iconHamburguer, logoBlue } from "../../assets/icons";
 import "./profile.scss";
 
 const Profile = () => {
@@ -20,6 +21,7 @@ const Profile = () => {
   const [tabSelected, setTabSelected] = useState("geral");
   const [contentTab, setContentTab] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [showSideMenu, setShowSideMenu] = useState(false);
 
   useEffect(() => {
     checkStorageLogin();
@@ -83,11 +85,26 @@ const Profile = () => {
     }
   };
 
+  const closeSideMenu = () => {
+    setShowSideMenu(false);
+  };
+
   return (
     <div className="wrapper-profile">
-      <SideMenu />
+      {showSideMenu && <SideMenu closeMenu={closeSideMenu} />}
       <div className="main">
-        <Search />
+        <div className="call-menu-mobile" onClick={() => setShowSideMenu(true)}>
+          {!showSideMenu && (
+            <>
+              <img
+                src={iconHamburguer}
+                alt="Abrir Menu"
+                className="icon-menu"
+              />
+              <img src={logoBlue} alt="" />
+            </>
+          )}
+        </div>
         <div className="profile">
           <h1 className="title-profile">
             Perfil <span className="divisor-title">/</span>{" "}

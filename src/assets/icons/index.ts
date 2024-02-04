@@ -15,3 +15,5 @@ export { default as iconDashboard } from "./icon-dashboard.svg";
 export { default as iconDashboardRed } from "./icon-dashboard-red.svg";
 export { default as iconArrowReturn } from "./icon-arrow-return.svg";
 export { default as iconUserBlack } from "./icon-user-black.svg";
+export { default as iconHamburguer } from "./icon-hamburguer.svg";
+export { default as iconClose } from "./icon-close.svg";

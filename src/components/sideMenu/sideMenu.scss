@@ -1,13 +1,24 @@
+@import "../../styles/variables";
+
 .side-menu {
   max-width: 256px;
   background: #FFFFFF;
   box-shadow: 6px 0px 18px 0px #0000000F;
   min-height: 100vh;
+  position: absolute;
+  z-index: 1;
   .logo-menu {
     padding: 20px 26px;
     height: 60px;
     border-bottom: 1px solid #EBEFF2;
     box-sizing: border-box;
+    position: relative;
+    width: 256px;
+    .icon-close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+    }
   }
   .options-menu {
     padding: 20px 26px;
@@ -16,7 +27,7 @@
     display: flex;
     flex-direction: column;
     .option-highlight {
-      color: #F21A05;
+      color: var(--orange-700, #F21A05);
       ;
     }
   }
@@ -28,5 +39,16 @@
   }
   .footer-menu {
     margin: 8px 26px;
+  }
+}
+@media #{$breakpoint-medium} {
+  .side-menu {
+    position: relative;
+    .logo-menu {
+      width: auto;
+      .icon-close {
+        display: none;
+      }  
+    } 
   }
 }

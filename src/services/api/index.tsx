@@ -15,11 +15,11 @@ const apiCreate = axios.create({
   baseURL,
 });
 
+const timestamp = new Date().getTime();
+const hash = generateMD5Hash(timestamp);
+
 const api = {
   getCharacters: async () => {
-    const timestamp = new Date().getTime();
-    const hash = generateMD5Hash(timestamp);
-
     try {
       const response: ICharacters = await apiCreate.get(
         `/v1/public/characters?apikey=${publicKey}&ts=${timestamp}&hash=${hash}`

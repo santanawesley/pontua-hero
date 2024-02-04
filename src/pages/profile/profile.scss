@@ -1,9 +1,20 @@
+@import "../../styles/variables";
+
 .wrapper-profile {
   display: flex;
   .main {
     width: 100%;
+    .call-menu-mobile {
+      padding: 20px 20px;
+      height: 60px;
+      border-bottom: 1px solid #EBEFF2;
+      box-sizing: border-box;
+      .icon-menu {
+        margin-right: 10px;
+      }
+    }
     .profile {
-      padding: 40px 10px 20px 30px;
+      padding: 30px 20px 20px;
       .title-profile {
         font-family: Epilogue;
         font-size: 24px;
@@ -26,8 +37,8 @@
           box-shadow: 6px 0px 18px 0px #0000000F;
           padding: 30px;
           border-radius: 15px;
-          display: flex;
-          gap: 30px;  
+          display: block;
+          text-align: center;
           img {
             width: 90px;
             height: 90px;
@@ -63,6 +74,30 @@
             font-weight: 600;
             line-height: 24px;
             letter-spacing: 0em;
+          }
+        }
+      }
+    }
+  }
+}
+@media #{$breakpoint-small} {
+  .call-menu-mobile {
+    padding: 20px 26px;
+  }
+  .profile {
+    padding: 40px 10px 20px 30px;
+  }
+}
+
+@media #{$breakpoint-small} {
+  .wrapper-profile {
+    .main {
+      .profile {
+        .content-tab {
+          .tab-geral {
+            display: flex;
+            text-align: left;
+            gap: 30px;  
           }
         }
       }
