@@ -11,6 +11,7 @@ import api from "../../services/api";
 import { Loading, showToast } from "../../utils";
 import { iconHamburguer, logoBlue } from "../../assets/icons";
 import "./profile.scss";
+import { itemsPerson } from "../../types/interfaces";
 
 const Profile = () => {
   const { persons } = useCharactersContext();
@@ -19,9 +20,15 @@ const Profile = () => {
 
   const [chooseCharacterData, setChooseCharacterData] = useState<any>({});
   const [tabSelected, setTabSelected] = useState("geral");
-  const [contentTab, setContentTab] = useState<any>([]);
+  const [contentTab, setContentTab] = useState<itemsPerson[]>(
+    [] as itemsPerson[]
+  );
   const [loading, setLoading] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
+
+  useEffect(() => {
+    setShowSideMenu(window.innerWidth > 768);
+  }, []);
 
   useEffect(() => {
     checkStorageLogin();
@@ -38,7 +45,7 @@ const Profile = () => {
     // Pegar seleção da Home no useContext, se não tiver pegar a do login no Storage, se não, direciona para a Home
     const chooseStoragePersonId = localStorage.getItem("profileHero");
     if (selectedCharacter.name) {
-      setChooseCharacterData(setChooseCharacterData);
+      setChooseCharacterData(selectedCharacter);
     } else if (chooseStoragePersonId) {
       const allPersons = persons.length ? persons : await getCharacters();
       const dataChoosePerson =
@@ -101,7 +108,7 @@ const Profile = () => {
                 alt="Abrir Menu"
                 className="icon-menu"
               />
-              <img src={logoBlue} alt="" />
+              <img src={logoBlue} alt="Logomarca Pontua" />
             </>
           )}
         </div>
@@ -128,8 +135,7 @@ const Profile = () => {
                       "." +
                       chooseCharacterData?.thumbnail?.extension
                     }
-                    alt=""
-                    className=""
+                    alt={chooseCharacterData.name}
                   />
                   <div className="text-tab-geral">
                     <p className="text-name">{chooseCharacterData?.name}</p>
@@ -140,8 +146,8 @@ const Profile = () => {
                 </div>
               ) : (
                 <ul>
-                  {contentTab.map((item: any) => {
-                    return <li>{item.name}</li>;
+                  {contentTab.map((item) => {
+                    return <li key={item.name}>{item.name}</li>;
                   })}
                 </ul>
               )}

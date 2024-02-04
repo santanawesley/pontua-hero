@@ -258,7 +258,11 @@ const Login = () => {
               onChange={(e) => setTextEmail(e.target.value)}
               onBlur={validateEmail}
             />
-            <img className="icons icons-input" src={iconAt} alt="" />
+            <img
+              className="icons icons-input"
+              src={iconAt}
+              alt="Informe seu e-mail"
+            />
             {!emailIsValid && (
               <p className="msg-error">Formato de e-mail inválido</p>
             )}
@@ -278,7 +282,7 @@ const Login = () => {
               className="icons icons-input icon-link"
               src={showPassword ? iconEyeActive : iconEyeInactive}
               onClick={() => setShowPassword((currentState) => !currentState)}
-              alt=""
+              alt="Alternar visibilidade da senha"
             />
             {!passwordIsValid && (
               <p className="msg-error">Campo de senha é obrigatório</p>
@@ -306,7 +310,7 @@ const Login = () => {
                         "." +
                         selectedAgent?.thumbnail?.extension
                       }
-                      alt=""
+                      alt={selectedAgent.name}
                     />
                   ) : (
                     <img src={iconUser} alt="" />
@@ -317,9 +321,9 @@ const Login = () => {
                 </div>
               )}
               {isOpen ? (
-                <img src={iconChevronUp} alt="" />
+                <img src={iconChevronUp} alt="Fecha Opções" />
               ) : (
-                <img src={iconChevronDown} alt="" />
+                <img src={iconChevronDown} alt="Abri Opções" />
               )}
             </div>
             {isOpen && (
@@ -342,12 +346,15 @@ const Login = () => {
                             "." +
                             option.thumbnail.extension
                           }
-                          alt=""
+                          alt={selectedAgent.name}
                         />
                         {option.name}
                       </div>
                       {option.id === selectedAgentStorage && (
-                        <img src={iconCheck} alt="" />
+                        <img
+                          src={iconCheck}
+                          alt="Perfil salvo na última sessão"
+                        />
                       )}
                     </div>
                   );
@@ -368,7 +375,11 @@ const Login = () => {
               {dataLoginScreen.textButtonOne}
             </button>
             {loginStep === "logInto" && (
-              <img className="icons icon-button" src={iconArrowEnter} alt="" />
+              <img
+                className="icons icon-button"
+                src={iconArrowEnter}
+                alt="Entrar"
+              />
             )}
           </div>
         )}
@@ -390,9 +401,9 @@ const Login = () => {
   return (
     <div className="page-login">
       <div className="wrapper-page-login">
-        <img className="logo" src={logo} alt="P" />
+        <img className="logo" src={logo} alt="Logomarca Pontua" />
         <div className="body-login">
-          <img className="img" src={building} alt="P" />
+          <img className="img" src={building} alt="" />
           <div className="wrapper-login-screen">{loginScreen()}</div>
         </div>
       </div>

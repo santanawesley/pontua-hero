@@ -66,6 +66,8 @@
         }
         ul {
           padding: 0 20px;
+          overflow: auto;
+          max-height: calc(100vh - 260px);
           li {
             color: #667085;
             list-style: initial;

@@ -7,7 +7,7 @@ const publicKey = "ee725462221502d8a130c8091ff4f1c7";
 const privateKey = "35b80e1e208ed7e6198db0acff75f4a94ab4e7c4";
 
 // Função para gerar o hash MD5
-const generateMD5Hash = (timestamp: any) => {
+const generateMD5Hash = (timestamp: number) => {
   return md5(`${timestamp}${privateKey}${publicKey}`).toString();
 };
 

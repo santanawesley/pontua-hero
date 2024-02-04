@@ -1,6 +1,8 @@
 export { default as logo } from "./icon-logo-white.svg";
 export { default as iconAt } from "./icon-at.svg";
 export { default as iconArrowEnter } from "./icon-arrow-enter.svg";
+export { default as iconArrowLeft } from "./icon-arrow-left.svg";
+export { default as iconArrowRight } from "./icon-arrow-right.svg";
 export { default as iconCheck } from "./icon-check.svg";
 export { default as iconChevronDown } from "./icon-chevron-down.svg";
 export { default as iconChevronUp } from "./icon-chevron-up.svg";

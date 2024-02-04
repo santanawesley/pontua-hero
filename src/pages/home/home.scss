@@ -1,0 +1,47 @@
+.wrapper-home {
+  .home {
+    width: 100%;
+    .wrapper-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 20px 30px;
+      .cards {
+        display: flex;
+        box-shadow: 0px 6px 18px 0px #0000000F;
+        background: #EAECF0;
+        padding: 14px 10px;
+        width: 258px;
+        height: 147px;
+        border-radius: 15px;
+        box-sizing: border-box;
+        gap: 15px;
+        cursor: pointer;
+        .img-cards {
+          width: 83px;
+          height: 119px;
+          border-radius: 9px
+        }
+        .info-cards {
+          width: 258px;
+          height: 147px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          letter-spacing: -0.03em;
+          .card-name {
+            font-weight: 700;
+          }
+          .card-description {
+            font-family: Epilogue;
+            font-size: 12px;
+            font-weight: 300;
+            line-height: 12px;
+            max-height: 7em;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+}

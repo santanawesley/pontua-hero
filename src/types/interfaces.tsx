@@ -2,16 +2,15 @@ export interface IMockLogin {
   isAuthenticated: boolean;
 }
 
+export interface itemsPerson {
+  resourceURI: string;
+  name: string;
+}
 export interface PersonDetails {
   available: number;
   collectionURI: string;
-  items: [
-    {
-      resourceURI: string;
-      name: string;
-    }[]
-  ];
   returned: number;
+  items: itemsPerson[];
 }
 export interface Person {
   id: number;

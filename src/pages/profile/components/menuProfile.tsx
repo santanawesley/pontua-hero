@@ -51,6 +51,7 @@ const MenuProfile = (props: any) => {
                   : ""
               }`}
               onClick={() => selectTab(item)}
+              key={item}
             >
               {item}
             </li>

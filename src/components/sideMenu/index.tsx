@@ -59,7 +59,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ closeMenu }) => {
   return (
     <div className="side-menu">
       <div className="logo-menu">
-        <img src={logoBlue} alt="" />
+        <img src={logoBlue} alt="Logomarca Pontua" />
         <img
           src={iconClose}
           alt="Fechar Menu"
@@ -76,7 +76,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ closeMenu }) => {
         >
           <img
             src={pageActive === "home" ? iconDashboardRed : iconDashboard}
-            alt=""
+            alt="Ir para Home"
           />
           Home
         </div>
@@ -88,13 +88,13 @@ const SideMenu: React.FC<SideMenuProps> = ({ closeMenu }) => {
         >
           <img
             src={pageActive === "profile" ? iconUserRed : iconUserBlack}
-            alt=""
+            alt="Ir para pagina de Perfil"
           />
           <p>Perfil</p>
         </div>
       </div>
       <div className="footer-menu" onClick={logOut}>
-        <img src={iconArrowReturn} alt="" />
+        <img src={iconArrowReturn} alt="Sair" />
         <p>Sair</p>
       </div>
     </div>
