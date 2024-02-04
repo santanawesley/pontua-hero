@@ -3,4 +3,23 @@
   height: 60px;
   border-bottom: 1px solid #EBEFF2;
   box-sizing: border-box;
+  .search {
+    gap: 10px;
+    display: flex;
+    .input-search {
+      width: 352px;
+      font-family: Epilogue;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 12px;
+      letter-spacing: -0.03em;
+      text-align: left;
+      color: #747D94;
+      border: none;
+      padding: 5px;
+    }
+    .icon-search {
+      width: 15px;
+    }
+  }
 }

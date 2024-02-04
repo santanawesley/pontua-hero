@@ -17,8 +17,10 @@ const Home = () => {
   const { saveSelectedCharacter } = useSelectedCharacterContext();
 
   const [characters, setCharacters] = useState([] as Person[]);
+  const [filteredCharacters, setFilteredCharacters] = useState([] as Person[]);
   const [showSideMenu, setShowSideMenu] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [searchedTerm, setSearchedTerm] = useState("");
 
   useEffect(() => {
     setShowSideMenu(window.innerWidth > 768);
@@ -38,6 +40,7 @@ const Home = () => {
   const getSelectedProfile = async () => {
     const allPersons = persons.length ? persons : await getCharacters();
     allPersons && setCharacters(allPersons);
+    allPersons && setFilteredCharacters(allPersons);
   };
 
   const getCharacters = async () => {
@@ -79,16 +82,33 @@ const Home = () => {
     navigate("/perfil");
   };
 
+  const returnFilteredCharacters = (dataFiltered: any) => {
+    setFilteredCharacters(dataFiltered);
+  };
+
+  const termSearch = (term: string) => {
+    setSearchedTerm(term);
+  };
+
   return (
     <div className="wrapper-home" style={{ display: "flex" }}>
       {showSideMenu && <SideMenu closeMenu={closeSideMenu} />}
       <div className="home">
-        <Search />
+        <Search
+          allCharacters={characters}
+          returnSearch={returnFilteredCharacters}
+          termSearch={termSearch}
+        />
         <div className="wrapper-cards">
           {loading ? (
             <Loading size="large" />
+          ) : searchedTerm.length && !filteredCharacters.length ? (
+            <div className="search-not-found">
+              <p>Agente não encontrado!</p>{" "}
+              <p>Fique à vontade para procurar outro.</p>
+            </div>
           ) : (
-            characters.map((person) => {
+            filteredCharacters.map((person) => {
               return (
                 <div
                   className="cards"
