@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.call-menu-mobile {
+  padding: 20px 20px;
+  height: 60px;
+  border-bottom: 1px solid #EBEFF2;
+  box-sizing: border-box;
+  .icon-menu {
+    margin-right: 10px;
+  }
+}
+@media #{$breakpoint-small} {
+  .call-menu-mobile {
+    padding: 20px 26px;
+  }
+}

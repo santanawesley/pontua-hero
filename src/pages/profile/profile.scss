@@ -4,14 +4,11 @@
   display: flex;
   .main {
     width: 100%;
-    .call-menu-mobile {
+    .div-header {
       padding: 20px 20px;
       height: 60px;
       border-bottom: 1px solid #EBEFF2;
       box-sizing: border-box;
-      .icon-menu {
-        margin-right: 10px;
-      }
     }
     .profile {
       padding: 30px 20px 20px;
@@ -82,24 +79,17 @@
     }
   }
 }
-@media #{$breakpoint-small} {
-  .call-menu-mobile {
-    padding: 20px 26px;
-  }
-  .profile {
-    padding: 40px 10px 20px 30px;
-  }
-}
 
 @media #{$breakpoint-small} {
   .wrapper-profile {
     .main {
       .profile {
+        padding: 40px 10px 20px 30px;
         .content-tab {
           .tab-geral {
             display: flex;
             text-align: left;
-            gap: 30px;  
+            gap: 30px;
           }
         }
       }

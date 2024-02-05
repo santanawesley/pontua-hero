@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
   useCharactersContext,
   useSelectedCharacterContext,
 } from "../../services/hook";
-import { SideMenu } from "../../components";
-import MenuProfile from "./components/menuProfile";
 import api from "../../services/api";
+import { HeaderMobile, SideMenu } from "../../components";
+import MenuProfile from "./components/menuProfile";
 import { Loading, showToast } from "../../utils";
-import { iconHamburguer, logoBlue } from "../../assets/icons";
-import "./profile.scss";
 import { itemsPerson } from "../../types/interfaces";
+import "./profile.scss";
 
 const Profile = () => {
   const { persons } = useCharactersContext();
@@ -26,8 +25,11 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
 
+  const isDesktop = window.innerWidth > 768;
+
   useEffect(() => {
-    setShowSideMenu(window.innerWidth > 768);
+    setShowSideMenu(isDesktop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -92,26 +94,23 @@ const Profile = () => {
     }
   };
 
-  const closeSideMenu = () => {
-    setShowSideMenu(false);
+  const closeSideMenu = (closeMenu: boolean) => {
+    setShowSideMenu(closeMenu);
+  };
+
+  const openSideMenu = (openMenu: boolean) => {
+    setShowSideMenu(openMenu);
   };
 
   return (
     <div className="wrapper-profile">
       {showSideMenu && <SideMenu closeMenu={closeSideMenu} />}
       <div className="main">
-        <div className="call-menu-mobile" onClick={() => setShowSideMenu(true)}>
-          {!showSideMenu && (
-            <>
-              <img
-                src={iconHamburguer}
-                alt="Abrir Menu"
-                className="icon-menu"
-              />
-              <img src={logoBlue} alt="Logomarca Pontua" />
-            </>
-          )}
-        </div>
+        {isDesktop ? (
+          <div className="div-header" />
+        ) : (
+          <HeaderMobile openSideMenu={openSideMenu} />
+        )}
         <div className="profile">
           <h1 className="title-profile">
             Perfil <span className="divisor-title">/</span>{" "}
