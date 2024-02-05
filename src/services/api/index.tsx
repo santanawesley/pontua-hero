@@ -3,8 +3,8 @@ import md5 from "crypto-js/md5";
 import { ICharacters } from "../../types/interfaces";
 
 const baseURL = "https://gateway.marvel.com:443/";
-const publicKey = "ee725462221502d8a130c8091ff4f1c7";
-const privateKey = "35b80e1e208ed7e6198db0acff75f4a94ab4e7c4";
+const publicKey = process.env.REACT_APP_PUBLIC_KEY;
+const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
 // Função para gerar o hash MD5
 const generateMD5Hash = (timestamp: number) => {
