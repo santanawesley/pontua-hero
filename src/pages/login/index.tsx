@@ -16,7 +16,7 @@ import {
 import building from "../../assets/building.webp";
 import { Loading, showToast, validate } from "../../utils";
 import mockLogin from "../../services/api/mock";
-import { IMockLogin, Person } from "../../types/interfaces";
+import { Person } from "../../types/interfaces";
 import useCharactersContext from "../../services/hook/useCharactersContext";
 import api from "../../services/api";
 import "./login.scss";
@@ -61,7 +61,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const isLoggedInStorage = localStorage.getItem("loggedInHero");
+    const isLoggedInStorage = localStorage.getItem("tokenHero");
     isLoggedInStorage && setLoggedIn(true);
     isLoggedInStorage && setLoginStep("selectProfile");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,22 +186,23 @@ const Login = () => {
     setPasswordIsValid(!!textPassword.length);
   };
 
-  const handleLogin = (): IMockLogin | Error => {
+  const handleLogin = () => {
     try {
-      const response: IMockLogin = mockLogin(textEmail, textPassword);
-      return response;
+      const { token: newToken } = mockLogin(textEmail, textPassword);
+      if (!newToken) return;
+      return newToken;
     } catch (error) {
-      return error as Error;
+      return false;
     }
   };
 
   const logIn = async () => {
     const resultLogin = handleLogin();
-    if (resultLogin instanceof Error || !resultLogin?.isAuthenticated)
+    if (resultLogin === false)
       return showToast("error", "E-mail e/ou senha inválida!");
 
     setLoggedIn(true);
-    localStorage.setItem("loggedInHero", "true");
+    resultLogin && localStorage.setItem("tokenHero", resultLogin);
 
     setLoginStep("selectProfile");
   };

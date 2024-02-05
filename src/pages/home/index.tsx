@@ -49,7 +49,7 @@ const Home = () => {
   // Fim da paginação
 
   const checkStorageLogin = () => {
-    const isLogged = localStorage.getItem("loggedInHero");
+    const isLogged = localStorage.getItem("tokenHero");
     if (!isLogged) navigate("/login");
   };
 
@@ -102,7 +102,7 @@ const Home = () => {
     navigate("/perfil");
   };
 
-  const returnFilteredCharacters = (dataFiltered: any) => {
+  const returnFilteredCharacters = (dataFiltered: Person[]) => {
     setFilteredCharacters(dataFiltered);
   };
 

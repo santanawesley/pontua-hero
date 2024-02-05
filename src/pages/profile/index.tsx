@@ -39,7 +39,7 @@ const Profile = () => {
   }, []);
 
   const checkStorageLogin = () => {
-    const isLogged = localStorage.getItem("loggedInHero");
+    const isLogged = localStorage.getItem("tokenHero");
     if (!isLogged) navigate("/login");
   };
 

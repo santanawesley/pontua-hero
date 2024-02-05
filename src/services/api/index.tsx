@@ -6,6 +6,9 @@ const baseURL = "https://gateway.marvel.com:443/";
 const publicKey = process.env.REACT_APP_PUBLIC_KEY;
 const privateKey = process.env.REACT_APP_PRIVATE_KEY;
 
+// Caso tivessemos uma Api própria com recursos apenas para usuários logados, nesse arquivo eu recuperaria o
+// Token (LocalStorage) e adicionaria ele ao cabeçalho de envio (claro que depende da Api, mas esse é o mais comum).
+
 // Função para gerar o hash MD5
 const generateMD5Hash = (timestamp: number) => {
   return md5(`${timestamp}${privateKey}${publicKey}`).toString();

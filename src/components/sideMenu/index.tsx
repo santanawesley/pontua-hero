@@ -49,7 +49,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ closeMenu }) => {
   };
 
   const logOut = () => {
-    localStorage.removeItem("loggedInHero");
+    localStorage.removeItem("tokenHero");
     localStorage.removeItem("profileHero");
     saveCharacters([]);
     saveSelectedCharacter({} as Person);

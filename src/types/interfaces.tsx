@@ -1,5 +1,6 @@
 export interface IMockLogin {
   isAuthenticated: boolean;
+  token: string;
 }
 
 export interface itemsPerson {
