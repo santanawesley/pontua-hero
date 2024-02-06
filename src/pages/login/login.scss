@@ -1,12 +1,8 @@
 @import "../../styles/variables";
 
 .page-login {
+  position: fixed;
   background: var(--blue-800, #00113D);
-  height: max-content;
-  min-width: max-content;
-  display: flex;
-  justify-content: center;
-  position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
@@ -20,7 +16,7 @@
       gap: 0;
       display: flex;
       flex-direction: column-reverse;
-      margin-top: 30px;
+      margin-top: 20px;
       margin-left: auto;
       .wrapper-login-screen {
         display: flex;
@@ -32,11 +28,11 @@
           background: var(--white-0, #FFF);
           width: 380px;
           box-sizing: border-box;
-          padding: 49px 36px 44px 33px;
+          padding: 20px;
           height: max-content;
           .title-login {
             color: var(--blue-600, #081B4E);
-            font-size: 36px;
+            font-size: 30px;
             font-style: normal;
             font-weight: 700;
             line-height: normal;
@@ -64,7 +60,7 @@
               font-weight: 700;
               line-height: normal;
               letter-spacing: -1.04px;
-              padding: 20px 15px;
+              padding: 10px 15px;
               margin-bottom: 11px;
               display: inline-flex;
               align-items: center;
@@ -76,15 +72,15 @@
               box-sizing: border-box;
             }
             .icons-input {
-              top: 20px;
+              top: 10px;
               right: 15px;
             }
             .icon-link {
               cursor: pointer;
             }
             .icon-button {
-              top: 26px;
-              right: 101px;
+              top: 20px;
+              right: 81px;
             }
             .button-cta {
               color: var(--gray-150, #FBFBFB);
@@ -93,10 +89,10 @@
               font-weight: 700;
               line-height: normal;
               letter-spacing: -1.56px;
-              margin-bottom: 23px;
+              margin-bottom: 10px;
               width: 100%;
               box-sizing: border-box;
-              padding: 16px 20px;
+              padding: 10px 20px;
               display: flex;
               flex-direction: column;
               justify-content: center;
@@ -235,90 +231,121 @@
     font-size: 12px;
     margin: -7px 0 7px 15px;
   }
-  @media #{$breakpoint-small} {
+}
+
+@media #{$breakpoint-small} {
+  .page-login {
     .wrapper-page-login {
       padding: 15px 15px 30px;
       .body-login {
-        .img {
-          width: 430px;
-        }
-        .login-screen {
-          width: 380px;
+        margin-top: 20px;
+        .wrapper-login-screen {
+          .login-screen {
+            padding: 49px 36px 44px 33px;
+            .title-login {
+              font-size: 36px;
+            }
+            .wrapper-input-icon {
+              .input-login {
+                padding: 20px 15px;
+              }
+              .icons-input {
+                top: 20px;
+              }
+              .icon-button {
+                top: 26px;
+                right: 101px;    
+              }
+              .button-cta {
+                padding: 16px 20px;
+                margin-bottom: 23px;
+              }
+            }
+          }
         }
       }
     }
   }
-  @media #{$breakpoint-medium} {
+}
+
+@media only screen and (min-width: 430px) {
+  .wrapper-login-screen {
+    margin: auto;
+  }
+}
+
+@media #{$breakpoint-medium} {
+  .page-login {
     .wrapper-page-login {
-      padding: 20px 10px 30px;
-      height: 100vh;
-      .logo {
-        width: 140px;
-      }
+      padding: 30px;
       .body-login {
         margin-top: 30px;
         margin-left: auto;
-        flex-direction: row-reverse;
         justify-content: center;
-        gap: 10px;
-        .login-screen {
-          padding: 30px 20px;
-          width: 310px;
+        gap: 20px;
+        .img {
+          width: 500px;
+          margin: auto;
         }
       }
     }
   }
-  @media #{$breakpoint-large} {
+}
+
+@media #{$breakpoint-large} {
+  .page-login {
     .wrapper-page-login {
-      padding: 20px 20px 20px 35px;
-      gap: 50px;
+      padding: 20px;
       .body-login {
         gap: 40px;
         margin-top: 58px;
-        margin-left: 10px;  
         flex-direction: row;
         .img {
           width: 530px;
         }
-        .login-screen {
-          padding: 49px 36px 44px 33px;;
-          width: 330px;
+        .wrapper-login-screen {
+          .login-screen {
+            padding: 30px 36px 30px 33px;;
+          }
         }
       }
     }
   }
-  @media #{$breakpoint-xlarge} {
+}
+
+@media #{$breakpoint-xlarge} {
+  .page-login {
     .wrapper-page-login {
-      padding: 20px 30px 20px 55px;
-      gap: 70px;
-      .logo {
-        width: auto;
-      }
+      padding: 30px 30px 20px 55px;
       .body-login {
-        gap: 100px;
-        margin-top: 60px;
-        margin-left: 50px;  
+        margin-top: 68px;
         .img {
           width: 590px;
         }
-        .login-screen {
-          width: 365px;
-        }
       }
     }
   }
-  @media #{$breakpoint-xxlarge} {
+}
+
+@media #{$breakpoint-xxlarge} {
+  .page-login {
     .wrapper-page-login {
-      padding: 20px 58px 20px 106px;
+      padding: 49px 68px 160px 106px;
       .body-login {
         gap: 140px;
-        margin-top: 48px;
+        margin-top: 42px;
         margin-left: 58px;  
         .img {
-          height: 450px;
+          width: 614px;
         }
-        .login-screen {
-          width: 380px;
+        .wrapper-login-screen {
+          .login-screen {
+            height: 433px;
+            padding: 49px 36px 43px 33px;
+          }
+          .select-screen {
+            height: 319px;
+          }
         }
       }
     }

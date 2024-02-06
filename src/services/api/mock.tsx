@@ -1,7 +1,7 @@
 import { IMockLogin } from "../../types/interfaces";
 import jwt from "jsonwebtoken";
 
-const secretKey = process.env.REACT_APP_SECRET_KEY || "";
+const secretKey = process.env.REACT_APP_SECRET_KEY || "alternativa";
 
 const users = [
   { id: 1, email: "pontua@pontua.com", password: "1" },

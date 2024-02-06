@@ -114,7 +114,7 @@ const Login = () => {
         signTitle: " ;)",
         description:
           "Foi enviado um e-mail para você com instruções de como redefinir a sua senha.",
-        textButtonOne: "voltar para login",
+        textButtonOne: "voltar para o login",
       },
       logInto: {
         title: "Bem-vindo",
@@ -243,7 +243,11 @@ const Login = () => {
 
   const loginScreen = () => {
     return (
-      <div className="login-screen">
+      <div
+        className={`login-screen ${
+          loginStep === "selectProfile" ? "select-screen" : ""
+        }`}
+      >
         <h1 className="title-login">
           {dataLoginScreen.title}
           <span className="sign-title">{dataLoginScreen.signTitle}</span>

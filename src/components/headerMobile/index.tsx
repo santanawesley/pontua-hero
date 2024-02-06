@@ -1,7 +1,7 @@
 import React from "react";
 
 import { iconHamburguer, logoBlue } from "../../assets/icons";
-import "./search.scss";
+import "./headerMobile.scss";
 
 interface HeaderMobileProps {
   openSideMenu: (showSideMenu: boolean) => void;
