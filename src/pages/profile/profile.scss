@@ -84,7 +84,7 @@
   .wrapper-profile {
     .main {
       .profile {
-        padding: 40px 10px 20px 30px;
+        padding: 40px 23px 20px;
         .content-tab {
           .tab-geral {
             display: flex;
@@ -92,6 +92,16 @@
             gap: 30px;
           }
         }
+      }
+    }
+  }
+}
+
+@media #{$breakpoint-medium} {
+  .wrapper-profile {
+    .main {
+      .profile {
+        padding: 40px 10px 20px 30px;
       }
     }
   }
